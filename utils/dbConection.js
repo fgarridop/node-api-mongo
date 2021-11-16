@@ -1,25 +1,18 @@
 const mongoose = require('mongoose')
 let dotenv = require('dotenv').config();
 
-let _db = null;
+const url = `${process.env.DB}://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_NAME}`;
 
-const dbConection =
+mongoose.connect(url, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-  module.exports = async () => {
+const db = mongoose.connection
 
-    const url = `${process.env.DB}://${process.env.MONGODB_HOST}:${process.env.MONGODB_PORT}/${process.env.MONGODB_NAME}`
-    console.log('Conectando DB')
-    try {
+db.on('error', console.error.bind(console, 'error al conectar'))
+db.once('open', function callback() {
+  console.log('base de datos conectada')
+})
 
-      this._db = await mongoose.connect(url, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      });
-
-      return this._db;
-
-    } catch (error) {
-      return error
-    }
-
-  };
+module.export = db;
