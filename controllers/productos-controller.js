@@ -1,11 +1,11 @@
-const modelUsuarios = require("../models/modelUsuario");
+const productosModel = require("../models/modelProductos");
 
 exports.listar = async function (req, res) {
-  modelUsuarios.find({}, (error, usuario) => {
+  productosModel.find({}, (error, usuario) => {
     if (error) {
       res.status(320).send({
         status: 320,
-        message: "Error obtener usuarios",
+        message: "Error obtener productos",
         payload: false,
       });
     } else {
@@ -19,7 +19,7 @@ exports.insert = async function (req, res) {
 
   if (data.length > 0) {
     try {
-      modelUsuarios.insertMany(data), { w: "majority", wtimeout: 100 };
+      productosModel.insertMany(data), { w: "majority", wtimeout: 100 };
       res.status(200).send({ status: 200, message: "OK", payload: false });
     } catch (error) {
       console.log(error);
