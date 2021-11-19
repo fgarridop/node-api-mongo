@@ -37,3 +37,8 @@ exports.insert = async function (req, res) {
     });
   }
 };
+
+exports.find = async function (req, res) {
+  const data = req.body;
+  console.log(data);
+};

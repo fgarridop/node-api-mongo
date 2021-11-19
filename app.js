@@ -5,6 +5,7 @@ var logger = require("morgan");
 let dotenv = require("dotenv").config();
 var expressJwt = require("express-jwt");
 const db = require("./utils/dbConection");
+const { AuthHosts } = require("./utils/alowedHosts");
 
 var app = express();
 
@@ -32,13 +33,13 @@ var usuarioRouter = require("./routes/user-router");
 var productosRouter = require("./routes/productos-router");
 var categoriasRouter = require("./routes/categorias-router");
 
-app.get("/", function (req, res) {
+app.get("/", AuthHosts, function (req, res) {
   res.send("FGP");
 });
 
-app.use("/api/usuarios", usuarioRouter);
-app.use("/api/productos", productosRouter);
-app.use("/api/categorias", categoriasRouter);
+app.use("/api/usuarios", AuthHosts, usuarioRouter);
+app.use("/api/productos", AuthHosts, productosRouter);
+app.use("/api/categorias", AuthHosts, categoriasRouter);
 
 app.listen(process.env.APP_PORT || 3000, () => {
   console.log("server up on port ", process.env.APP_PORT || 3000);
